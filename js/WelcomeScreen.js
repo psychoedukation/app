@@ -5,7 +5,9 @@ export default class WelcomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      name: null
+    };
   }
 
   componentDidMount() {}
@@ -51,9 +53,10 @@ export default class WelcomeScreen extends React.Component {
               paddingRight: 16,
             }}
             placeholder="Wie heißt du?"
+            onChangeText={(text) => this.setState({name: text})}
           />
           <TouchableHighlight
-            onPress={() => {}}
+            onPress={() => {this.props.onName(this.state.name)}}
             style={{
               height: 56,
               borderRadius: 50,

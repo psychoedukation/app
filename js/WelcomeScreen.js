@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Button, TextInput, Image, Text, TouchableHighlight} from 'react-native';
 
+import { appState } from './utils/appState';
+
 export default class WelcomeScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +60,10 @@ export default class WelcomeScreen extends React.Component {
             onChangeText={(text) => this.setState({name: text})}
           />
           <TouchableHighlight
-            onPress={() => navigation.navigate('ChatScreen', {name: this.state.name})}
+            onPress={() => {
+              appState.userName = this.state.name;
+              navigation.navigate('ChatScreen')
+            }}
             style={{
               height: 56,
               borderRadius: 50,

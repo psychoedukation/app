@@ -13,7 +13,7 @@ export default class ChatRecommendation extends React.Component {
       : styles.unselected;
     return (
       <View style={{...styles.bubble, ...selectionStyles}}>
-        <Text style={{fontSize: 18, lineHeight: 56, opacity: 0.4}}>{text}</Text>
+        <Text style={{fontSize: 18, lineHeight: 52, opacity: 0.4}}>{text}</Text>
       </View>
     );
   }

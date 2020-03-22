@@ -134,7 +134,7 @@ export default class ChatScreen extends React.Component {
     if (message.isRequest) {
       positionStyle.alignItems = 'flex-end';
     }
-    
+
     return (
       <View style={positionStyle}>
         <ChatMessage key={message.key} isRequest={message.isRequest}

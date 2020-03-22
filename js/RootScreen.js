@@ -18,13 +18,18 @@ export default class RootScreen extends React.Component {
     super(props);
   }
 
+  
+
+
   //----------------------------------------------------------------------------
   /**
    *
    */
   //----------------------------------------------------------------------------
   render() {
+
     const {navigation} = this.props;
+
     return (
       <View style={{width: '100%', height: '100%', alignItems:'center'}}>
         <View style={{width:'100%',height:'50%',backgroundColor: '#1DCCB1', justifyContent:'center', alignItems:'center'}}>

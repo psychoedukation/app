@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import ChatMessage from './components/ChatMessage';
+import ChatRecommendation from './components/ChatRecommendation';
 
 import { appState } from './utils/appState';
 
@@ -21,6 +22,7 @@ export default class ChatScreen extends React.Component {
     this.state = {
       messages: [],
       response: null,
+      keyboardHeight: 0
     };
   }
 
@@ -30,7 +32,9 @@ export default class ChatScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   componentDidMount() {
-    this.sendMessage(null);
+    this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
+    this.sendMessage(appState.userName, false);
   }
 
   //----------------------------------------------------------------------------
@@ -38,7 +42,57 @@ export default class ChatScreen extends React.Component {
    *
    */
   //----------------------------------------------------------------------------
-  sendMessage(message) {
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  //----------------------------------------------------------------------------
+  /**
+   *
+   */
+  //----------------------------------------------------------------------------
+  keyboardWillShow = (e) => {
+    var newKeyboardHeight = e.endCoordinates.height;
+    
+    if ((Platform.OS === 'android') && (!__DEV__)) {
+      // on android, we let the system take over
+      newKeyboardHeight = 0;
+    }
+    
+    this.setState({ keyboardHeight: newKeyboardHeight });
+    
+    setTimeout(() => {
+      if ((typeof this.refs.list != 'undefined') &&
+          (this.refs.list != null))
+      {
+        this.refs.list.scrollToEnd();
+      }
+    }, 10);
+  };
+
+  //----------------------------------------------------------------------------
+  /**
+   *
+   */
+  //----------------------------------------------------------------------------
+  keyboardWillHide = (e) => {
+    this.setState({ keyboardHeight: 0 });
+    setTimeout(() => {
+      if ((typeof this.refs.list != 'undefined') &&
+          (this.refs.list != null))
+      {
+        this.refs.list.scrollToEnd();
+      }
+    }, 10);
+  };
+
+  //----------------------------------------------------------------------------
+  /**
+   *
+   */
+  //----------------------------------------------------------------------------
+  sendMessage(message, display = true) {
     fetch(
       'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
       {
@@ -48,7 +102,7 @@ export default class ChatScreen extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: message == null ? "dummy" : message,
+          message: message,
         }),
       },
     )
@@ -58,7 +112,7 @@ export default class ChatScreen extends React.Component {
         console.error(error);
       });
       
-    if (message != null) {
+    if (display) {
       var messages = this.state.messages;
     
       messages.push({ key: messages.length, isRequest: true, message: message});
@@ -73,10 +127,16 @@ export default class ChatScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   handleResponse(response) {
+    console.log(response);
+    
     var messages = this.state.messages;
     
     for (var i in response.messages) {
       messages.push({ key: messages.length, isRequest: false, message: response.messages[i].message});
+    }
+    
+    for (var i in response.suggested) {
+      messages.push({ key: messages.length, suggested: true, message: response.suggested[i]});
     }
     
     this.setState({messages: messages});
@@ -90,13 +150,15 @@ export default class ChatScreen extends React.Component {
   render() {
     return (
       <View style={styles.mainView}>
-        <SafeAreaView style={styles.messages}>
+        <View style={styles.messages}>
           <FlatList
+            ref={'list'}
             style={styles.messages}
             data={this.state.messages}
             renderItem={({ item }) => this.renderMessage(item)}
+            keyExtractor={item => 'id' + item.key}
           />
-        </SafeAreaView>
+        </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
             <TextInput ref={'textInput'}
@@ -107,6 +169,7 @@ export default class ChatScreen extends React.Component {
           </View>
           <TouchableHighlight
             onPress={() => {
+              this.refs.list.scrollToEnd();
               this.refs.textInput.blur();
               this.refs.textInput.clear();
               this.sendMessage(this.state.message);
@@ -121,7 +184,10 @@ export default class ChatScreen extends React.Component {
 
   //----------------------------------------------------------------------------
   /**
-  *
+  *             <ChatRecommendation selected={false} text="Ich bin traurig." />
+            <ChatRecommendation selected={false} text="Ich bin traurig." />
+            <ChatRecommendation selected={true} text="Ich bin traurig." />
+
   */
   //----------------------------------------------------------------------------
   renderMessage(message) {
@@ -130,13 +196,31 @@ export default class ChatScreen extends React.Component {
     if (message.isRequest) {
       positionStyle.alignItems = 'flex-end';
     }
-
-    return (
-      <View style={positionStyle}>
-        <ChatMessage key={message.key} isRequest={message.isRequest}
-          message={message.message} />
-      </View>
-    );
+    
+    if (!message.suggested) {
+      return (
+        <View key={'key' + message.key} style={positionStyle}>
+          <ChatMessage isRequest={message.isRequest}
+            message={message.message} />
+        </View>
+      );
+    }
+    else {
+      const text = message.message;
+      
+      return (
+        <TouchableWithoutFeedback key={'key' + message.key} style={positionStyle}
+          onPress={() => {
+            message.selected = true;
+            this.refs.list.scrollToEnd();
+            this.sendMessage(text, false);
+          }}>
+          <View>
+            <ChatRecommendation selected={message.selected} text={text} />
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
   }
 }
 
@@ -179,7 +263,6 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     backgroundColor: 'rgba(3, 63, 101, 0.74)',
-    display: 'flex',
     marginLeft: 5
   },
   

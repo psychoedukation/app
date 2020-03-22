@@ -11,6 +11,8 @@ export default class WelcomeScreen extends React.Component {
   componentDidMount() {}
 
   render() {
+    const {navigation} = this.props;
+
     return (
       <View style={{width: '100%', height: '100%'}}>
         <View
@@ -53,7 +55,7 @@ export default class WelcomeScreen extends React.Component {
             placeholder="Wie heißt du?"
           />
           <TouchableHighlight
-            onPress={() => {}}
+            onPress={() => navigation.navigate('ChatScreen')}
             style={{
               height: 56,
               borderRadius: 50,

@@ -31,10 +31,6 @@ export default class ResultScreen extends React.Component {
   render() {
 
     const {route} = this.props;
-    console.log('rendering Result')
-    console.log(route.params)
-
-
     const image = route.params.image;
     const headline = route.params.headline;
     const shortDesc = route.params.shortDesc;

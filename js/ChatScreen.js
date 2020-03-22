@@ -13,6 +13,7 @@ import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
 import ResultCard from './components/ResultCard';
 import ChatRecommendation from './components/ChatRecommendation';
+import ResultCard from './components/ResultCard';
 
 import {appState} from './utils/appState';
 import {Icon} from 'react-native-elements';
@@ -46,7 +47,7 @@ export default class ChatScreen extends React.Component {
   componentDidMount() {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
-    this.sendMessage(appState.userName, false);
+    this.initializeBot(appState.userName);
   }
 
   //----------------------------------------------------------------------------
@@ -104,7 +105,31 @@ export default class ChatScreen extends React.Component {
    *
    */
   //----------------------------------------------------------------------------
+  initializeBot() {
+    fetch(
+      'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(responseJson => this.sendMessage(appState.userName, false))
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  //----------------------------------------------------------------------------
+  /**
+   *
+   */
+  //----------------------------------------------------------------------------
   sendMessage(message, display = true) {
+    console.log(message);
     fetch(
       'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
       {
@@ -210,11 +235,8 @@ export default class ChatScreen extends React.Component {
 
   //----------------------------------------------------------------------------
   /**
-  *             <ChatRecommendation selected={false} text="Ich bin traurig." />
-            <ChatRecommendation selected={false} text="Ich bin traurig." />
-            <ChatRecommendation selected={true} text="Ich bin traurig." />
-
-  */
+   *
+   */
   //----------------------------------------------------------------------------
   renderMessage(message) {
     var positionStyle = { alignItems: 'flex-start' };
@@ -222,8 +244,26 @@ export default class ChatScreen extends React.Component {
     if (message.isRequest) {
       positionStyle.alignItems = 'flex-end';
     }
-
-    if (!message.suggested) {
+    
+    var json = null;
+    
+    try {
+      json = JSON.parse(message.message);
+    }
+    catch (e) {
+      console.log(e);
+    }
+    
+    if (json != null) {
+      console.log(json.image);
+      return (
+        <View key={'key' + message.key} style={positionStyle}>
+          <ResultCard image={{ uri: json.image }}
+            headline={json.headline} shortDesc={json.shortDesc} />
+        </View>
+      );
+    }
+    else if (!message.suggested) {
       return (
         <View key={'key' + message.key} style={positionStyle}>
           <ChatMessage

@@ -8,13 +8,14 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  AppState
 } from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
 import ResultList from './components/ResultList';
 import ChatRecommendation from './components/ChatRecommendation';
 
-import {appState} from './utils/appState';
+import {appState, generateUUID} from './utils/appState';
 import {Icon} from 'react-native-elements';
 
 //------------------------------------------------------------------------------
@@ -35,6 +36,7 @@ export default class ChatScreen extends React.Component {
       messages: [],
       response: null,
       keyboardHeight: 0,
+      appState: AppState.currentState
     };
   }
 
@@ -47,6 +49,8 @@ export default class ChatScreen extends React.Component {
     this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow);
     this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide);
     this.initializeBot(appState.userName);
+    
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   //----------------------------------------------------------------------------
@@ -57,8 +61,26 @@ export default class ChatScreen extends React.Component {
   componentWillUnmount() {
     this.keyboardWillShowSub.remove();
     this.keyboardWillHideSub.remove();
+    
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
+  //----------------------------------------------------------------------------
+  /**
+   *
+   */
+  //----------------------------------------------------------------------------
+  handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) &&
+        (nextAppState === 'active'))
+    {
+      appState.userId = generateUUID();
+      this.initializeBot(appState.userName);
+    }
+    
+    this.setState({appState: nextAppState});
+  }
+  
   //----------------------------------------------------------------------------
   /**
    *
@@ -105,10 +127,12 @@ export default class ChatScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   initializeBot() {
+        console.log(new Date() + "initialize bot");
+
     fetch(
       'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -118,7 +142,7 @@ export default class ChatScreen extends React.Component {
       .then(response => response.json())
       .then(responseJson => this.sendMessage(appState.userName, false))
       .catch(error => {
-        console.error(error);
+        //console.error(error);
       });
   }
 
@@ -183,10 +207,12 @@ export default class ChatScreen extends React.Component {
 
   //----------------------------------------------------------------------------
   /**
-  *
-  */
+   *
+   */
   //----------------------------------------------------------------------------
   render() {
+    setTimeout(() => this.refs.list.scrollToEnd(), 10);
+    
     const {navigation} = this.props;
 
     return (

@@ -19,10 +19,10 @@ export default class NavigationComponent extends React.Component {
     }
 
     return (
-      <View style={{justifyContent: 'center', marginBottom:20}}>
+      <View style={{justifyContent: 'center', marginBottom: 20}}>
         <Svg
           width={'100%'}
-          height={150.257}
+          height={88.257}
           viewBox="0 0 360 88.257"
           preserveAspectRatio="xMidYMax slice">
           <Path
@@ -30,7 +30,7 @@ export default class NavigationComponent extends React.Component {
             d="M0 0h360v77.18s-24.641 11.077-114.641 11.077S0 77.18 0 77.18z"
           />
         </Svg>
-        <View style={{position: 'absolute', left: 32, top: 70}}>
+        <View style={{position: 'absolute', left: 32, top: 12}}>
           <Icon onPress={() => {}} size={52} color="#fff" name="menu" />
         </View>
         <View
@@ -43,13 +43,11 @@ export default class NavigationComponent extends React.Component {
             justifyContent: 'center',
             alignItems: 'center',
             left: '50%',
-            top: 40,
+            top: 8,
             transform: [{translateX: -75}],
           }}>
           {image}
-          
         </View>
-        
       </View>
     );
   }

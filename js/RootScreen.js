@@ -1,9 +1,6 @@
 import React from 'react';
 import {Text, View, Button, Image} from 'react-native';
 
-import WelcomeScreen from './WelcomeScreen';
-import NavigationComponent from './NavigationComponent';
-
 //------------------------------------------------------------------------------
 /**
  *

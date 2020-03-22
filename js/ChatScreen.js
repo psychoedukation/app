@@ -11,9 +11,8 @@ import {
 } from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
-import ResultCard from './components/ResultCard';
+import ResultList from './components/ResultList';
 import ChatRecommendation from './components/ChatRecommendation';
-import ResultCard from './components/ResultCard';
 
 import {appState} from './utils/appState';
 import {Icon} from 'react-native-elements';
@@ -144,7 +143,10 @@ export default class ChatScreen extends React.Component {
       },
     )
       .then(response => response.json())
-      .then(responseJson => { this.handleResponse(responseJson) })
+      .then(responseJson => this.handleResponse(responseJson))
+      .then(() => {
+        this.setState({message: null});
+      })
       .catch(error => {
         console.error(error);
       });
@@ -189,20 +191,17 @@ export default class ChatScreen extends React.Component {
 
     return (
       <View style={styles.mainView}>
-        <NavigationComponent showAvatar={true}></NavigationComponent>
+        <NavigationComponent showAvatar={true} />
         <View style={styles.messages}>
-        <SafeAreaView style={styles.messages}>
-          <FlatList
-            ref={'list'}
-            style={styles.messages}
-            data={this.state.messages}
-            renderItem={({item}) => this.renderMessage(item)}
-            keyExtractor={item => 'id' + item.key}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate('ResultScreen')}>
-            <ResultCard image={require('../assets/img/result_card.png')} headline="Ängste überwinden" shortDesc="Erfahre mehr darüber wie du mit Ängsten besser umgehen kannst"></ResultCard>
-          </TouchableOpacity>
-        </SafeAreaView>
+          <SafeAreaView style={styles.messages}>
+            <FlatList
+              ref={'list'}
+              style={{paddingHorizontal: 26}}
+              data={this.state.messages}
+              renderItem={({item}) => this.renderMessage(item)}
+              keyExtractor={item => 'id' + item.key}
+            />
+          </SafeAreaView>
         </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
@@ -257,10 +256,7 @@ export default class ChatScreen extends React.Component {
     if (json != null) {
       console.log(json.image);
       return (
-        <View key={'key' + message.key} style={positionStyle}>
-          <ResultCard image={{ uri: json.image }}
-            headline={json.headline} shortDesc={json.shortDesc} />
-        </View>
+        <ResultList response={json} />
       );
     }
     else if (!message.suggested) {
@@ -282,7 +278,7 @@ export default class ChatScreen extends React.Component {
             this.refs.list.scrollToEnd();
             this.sendMessage(text, false);
           }}>
-          <View>
+          <View style={{paddingTop: 8, marginBottom: 4}}>
             <ChatRecommendation selected={message.selected} text={text} />
           </View>
         </TouchableWithoutFeedback>
@@ -303,7 +299,6 @@ const styles = StyleSheet.create({
 
   messages: {
     flex: 1,
-    paddingHorizontal: 16,
   },
 
   inputView: {

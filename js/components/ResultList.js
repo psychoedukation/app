@@ -30,7 +30,7 @@ export default class ResultList extends React.Component {
             uri: response.image,
           },
           headline: response.headline,
-          shortDesc: response.shortDesc
+          description: response.description
         })}}>
           <ResultCard
             image={{

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, TouchableOpacity} from 'react-native';
 
 export default class ResultCard extends React.Component {
   constructor(props) {
@@ -12,6 +12,7 @@ export default class ResultCard extends React.Component {
     const shortDesc = this.props.shortDesc;
 
     return (
+
       <View
         style={{
           elevation: 5,
@@ -27,14 +28,14 @@ export default class ResultCard extends React.Component {
           overflow: 'hidden',
           marginBottom: 32,
         }}>
-        <Image style={{width: '100%', height: 124}} source={image} />
-        <Text style={{fontSize: 24, paddingHorizontal: 32, paddingVertical: 8}}>
-          {headline}
-        </Text>
-        <Text
-          style={{paddingHorizontal: 32, paddingBottom: 32, color: '#808080'}}>
-          {shortDesc}
-        </Text>
+          <Image style={{width: '100%', height: 124}} source={image} />
+          <Text style={{fontSize: 24, paddingHorizontal: 32, paddingVertical: 8}}>
+            {headline}
+          </Text>
+          <Text
+            style={{paddingHorizontal: 32, paddingBottom: 32, color: '#808080'}}>
+            {shortDesc}
+          </Text>
       </View>
     );
   }

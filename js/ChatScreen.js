@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList,TouchableOpacity, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import ChatMessage from './components/ChatMessage';
+import NavigationComponent from './components/NavigationComponent';
+import ResultCard from './components/ResultCard';
 import ChatRecommendation from './components/ChatRecommendation';
 
 import { appState } from './utils/appState';
@@ -54,14 +56,14 @@ export default class ChatScreen extends React.Component {
   //----------------------------------------------------------------------------
   keyboardWillShow = (e) => {
     var newKeyboardHeight = e.endCoordinates.height;
-    
+
     if ((Platform.OS === 'android') && (!__DEV__)) {
       // on android, we let the system take over
       newKeyboardHeight = 0;
     }
-    
+
     this.setState({ keyboardHeight: newKeyboardHeight });
-    
+
     setTimeout(() => {
       if ((typeof this.refs.list != 'undefined') &&
           (this.refs.list != null))
@@ -111,12 +113,12 @@ export default class ChatScreen extends React.Component {
       .catch(error => {
         console.error(error);
       });
-      
+
     if (display) {
       var messages = this.state.messages;
-    
+
       messages.push({ key: messages.length, isRequest: true, message: message});
-    
+
       this.setState({messages: messages});
     }
   }
@@ -128,17 +130,17 @@ export default class ChatScreen extends React.Component {
   //----------------------------------------------------------------------------
   handleResponse(response) {
     console.log(response);
-    
+
     var messages = this.state.messages;
-    
+
     for (var i in response.messages) {
       messages.push({ key: messages.length, isRequest: false, message: response.messages[i].message});
     }
-    
+
     for (var i in response.suggested) {
       messages.push({ key: messages.length, suggested: true, message: response.suggested[i]});
     }
-    
+
     this.setState({messages: messages});
   }
 
@@ -148,9 +150,13 @@ export default class ChatScreen extends React.Component {
   */
   //----------------------------------------------------------------------------
   render() {
+    const {navigation} = this.props;
+
     return (
       <View style={styles.mainView}>
+        <NavigationComponent showAvatar={true}></NavigationComponent>
         <View style={styles.messages}>
+        <SafeAreaView style={styles.messages}>
           <FlatList
             ref={'list'}
             style={styles.messages}
@@ -158,6 +164,10 @@ export default class ChatScreen extends React.Component {
             renderItem={({ item }) => this.renderMessage(item)}
             keyExtractor={item => 'id' + item.key}
           />
+          <TouchableOpacity onPress={() => navigation.navigate('ResultScreen')}>
+            <ResultCard image={require('../assets/img/result_card.png')} headline="Ängste überwinden" shortDesc="Erfahre mehr darüber wie du mit Ängsten besser umgehen kannst"></ResultCard>
+          </TouchableOpacity>
+        </SafeAreaView>
         </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
@@ -192,11 +202,11 @@ export default class ChatScreen extends React.Component {
   //----------------------------------------------------------------------------
   renderMessage(message) {
     var positionStyle = { alignItems: 'flex-start' };
-    
+
     if (message.isRequest) {
       positionStyle.alignItems = 'flex-end';
     }
-    
+
     if (!message.suggested) {
       return (
         <View key={'key' + message.key} style={positionStyle}>
@@ -207,7 +217,7 @@ export default class ChatScreen extends React.Component {
     }
     else {
       const text = message.message;
-      
+
       return (
         <TouchableWithoutFeedback key={'key' + message.key} style={positionStyle}
           onPress={() => {
@@ -232,22 +242,24 @@ export default class ChatScreen extends React.Component {
 //------------------------------------------------------------------------------
 const styles = StyleSheet.create({
   mainView: {
-    flex: 1
+    flex: 1,
   },
-  
+
   messages: {
-    flex: 1
+    flex: 1,
+    paddingLeft:20,
+    paddingRight:20
   },
-  
+
   inputView: {
     flexDirection: 'row',
     padding: 5
   },
-  
+
   textInputView: {
     flex: 1,
   },
-  
+
   textInput: {
     height: 56,
     borderWidth: 1,
@@ -256,7 +268,7 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
-  
+
   sendButtonView: {
     height: 56,
     borderRadius: 50,
@@ -265,12 +277,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(3, 63, 101, 0.74)',
     marginLeft: 5
   },
-  
+
   sendButtonText: {
     textAlign: 'center',
     lineHeight: 56,
     color: '#fff',
     fontSize: 18,
   }
-  
+
 });

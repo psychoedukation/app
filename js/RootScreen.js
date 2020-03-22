@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, Text, View, SectionList, FlatList, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, SectionList,Button, FlatList, TouchableOpacity, Image, ImageBackground} from 'react-native';
 
 //------------------------------------------------------------------------------
 /**
@@ -15,6 +15,7 @@ import { StyleSheet, Text, View, SectionList, FlatList, TouchableOpacity, Image,
 //------------------------------------------------------------------------------
 export default class RootScreen extends React.Component {
 
+
   //----------------------------------------------------------------------------
   /**
    *
@@ -22,11 +23,12 @@ export default class RootScreen extends React.Component {
   //----------------------------------------------------------------------------
   constructor(props) {
     super(props);
-    
     this.state = {
       response: null
     }
   }
+
+  
 
   //----------------------------------------------------------------------------
   /**
@@ -58,6 +60,8 @@ export default class RootScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   render() {
+
+    const {navigation} = this.props;
     
     var response = "";
     if (this.state.response != null) {
@@ -78,6 +82,8 @@ export default class RootScreen extends React.Component {
             source={require('../assets/img/border-image.png')}
           />
         </View>
+
+        <Button title="Start" onPress={() => navigation.navigate('ChatScreen')}></Button>
 
         <Text style={{fontSize:36, color:'#45718D',paddingTop:20, fontWeight:'bold'}}>Corona Psycare</Text>
       </View>

@@ -8,7 +8,12 @@
 import React from 'react';
 
 import RootScreen from './js/RootScreen';
+import ChatScreen from './js/ChatScreen';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 //------------------------------------------------------------------------------
 /**
  * create the app providing the redux store to all its children
@@ -18,7 +23,18 @@ export default class App extends React.Component {
  
   render() {
     return (
-      <RootScreen/>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="RootScreen"
+            component={RootScreen}
+          />
+          <Stack.Screen
+            name="ChatScreen"
+            component={ChatScreen}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 }

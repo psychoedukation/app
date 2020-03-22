@@ -8,6 +8,8 @@ export default class ResultList extends React.Component {
   }
 
   render() {
+    const response = this.props.response;
+
     return (
       <View
         style={{
@@ -21,24 +23,10 @@ export default class ResultList extends React.Component {
         </Text>
         <ResultCard
           image={{
-            uri: 'https://images.unsplash.com/photo-1549633030-89d0743bad01',
+            uri: response.image,
           }}
-          headline="Positivität"
-          shortDesc="Mit einem besseren Mindset ist alles einfacher..."
-        />
-        <ResultCard
-          image={{
-            uri: 'https://images.unsplash.com/photo-1584447528608-7817bb50cab8',
-          }}
-          headline="Ängste überwinden"
-          shortDesc="Erfahre mehr darüber, wie du mit Ängsten besser umgehen kannst"
-        />
-        <ResultCard
-          image={{
-            uri: 'https://images.unsplash.com/photo-1584447528608-7817bb50cab8',
-          }}
-          headline="Ängste überwinden"
-          shortDesc="Erfahre mehr darüber, wie du mit Ängsten besser umgehen kannst"
+          headline={response.headline}
+          shortDesc={response.shortDesc}
         />
       </View>
     );

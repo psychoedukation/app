@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
-import ResultCard from './components/ResultCard';
+import ResultList from './components/ResultList';
 import ChatRecommendation from './components/ChatRecommendation';
 
 import {appState} from './utils/appState';
@@ -256,10 +256,7 @@ export default class ChatScreen extends React.Component {
     if (json != null) {
       console.log(json.image);
       return (
-        <View key={'key' + message.key} style={positionStyle}>
-          <ResultCard image={{ uri: json.image }}
-            headline={json.headline} shortDesc={json.shortDesc} />
-        </View>
+        <ResultList response={json} />
       );
     }
     else if (!message.suggested) {

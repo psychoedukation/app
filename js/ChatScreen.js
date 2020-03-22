@@ -90,13 +90,14 @@ export default class ChatScreen extends React.Component {
   render() {
     return (
       <View style={styles.mainView}>
-        <SafeAreaView style={styles.messages}>
+        <View style={styles.messages}>
           <FlatList
+            ref={'list'}
             style={styles.messages}
             data={this.state.messages}
             renderItem={({ item }) => this.renderMessage(item)}
           />
-        </SafeAreaView>
+        </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
             <TextInput ref={'textInput'}
@@ -107,7 +108,7 @@ export default class ChatScreen extends React.Component {
           </View>
           <TouchableHighlight
             onPress={() => {
-              this.refs.textInput.blur();
+              this.refs.list.scrollToEnd();
               this.refs.textInput.clear();
               this.sendMessage(this.state.message);
             }}
@@ -121,7 +122,10 @@ export default class ChatScreen extends React.Component {
 
   //----------------------------------------------------------------------------
   /**
-  *
+  *             <ChatRecommendation selected={false} text="Ich bin traurig." />
+            <ChatRecommendation selected={false} text="Ich bin traurig." />
+            <ChatRecommendation selected={true} text="Ich bin traurig." />
+
   */
   //----------------------------------------------------------------------------
   renderMessage(message) {

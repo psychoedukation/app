@@ -1,10 +1,3 @@
-/*
- * Copyright (C) SimPaFee UG (haftungsbeschränkt) - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Patrick Harms <patrick@barbqapp.de>, 2018-2020
- */
-
 import React from 'react';
 import { StyleSheet, Text, View, SectionList, FlatList, TouchableOpacity, Image, ImageBackground} from 'react-native';
 import ChatMessage from './components/ChatMessage';

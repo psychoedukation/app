@@ -108,7 +108,7 @@ export default class ChatScreen extends React.Component {
     fetch(
       'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -198,9 +198,6 @@ export default class ChatScreen extends React.Component {
             renderItem={({item}) => this.renderMessage(item)}
             keyExtractor={item => 'id' + item.key}
           />
-          <TouchableOpacity onPress={() => navigation.navigate('ResultScreen')}>
-            <ResultCard image={require('../assets/img/result_card.png')} headline="Ängste überwinden" shortDesc="Erfahre mehr darüber wie du mit Ängsten besser umgehen kannst"></ResultCard>
-          </TouchableOpacity>
         </SafeAreaView>
         </View>
         <View style={styles.inputView}>

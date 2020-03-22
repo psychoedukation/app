@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 //------------------------------------------------------------------------------
 /**
@@ -14,7 +14,6 @@ import { StyleSheet, Text, View} from 'react-native';
  */
 //------------------------------------------------------------------------------
 export default class ChatMessage extends React.Component {
-
   //----------------------------------------------------------------------------
   /**
    *
@@ -29,32 +28,25 @@ export default class ChatMessage extends React.Component {
    *
    */
   //----------------------------------------------------------------------------
-  componentDidMount() {
-    
-  }
-
-  //----------------------------------------------------------------------------
-  /**
-   *
-   */
-  //----------------------------------------------------------------------------
   render() {
     const message = this.props.message;
+    const specificStyles = this.props.isRequest
+      ? styles.chatRequest
+      : styles.chatResponse;
+
     return (
-      <View style={this.props.isRequest ? styles.chatRequest : styles.chatResponse}>
-        <Text>{message}</Text>
+      <View style={{...styles.chatMessage, ...specificStyles}}>
+        <Text style={{fontSize: 18}}>{message}</Text>
       </View>
     );
   }
-
 }
 const styles = StyleSheet.create({
-  chatRequest: {
-    width: 260,
+  chatMessage: {
+    maxWidth: '90%',
+    marginTop: 24,
     padding: 32,
     borderRadius: 24,
-    borderTopRightRadius: 0,
-    backgroundColor: 'rgba(69, 113, 141, 0.18)',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -65,20 +57,14 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
-  chatResponse: {
-    width: 260,
-    padding: 32,
-    borderRadius: 24,
+  chatRequest: {
+    marginRight: 'auto',
     borderBottomLeftRadius: 0,
     backgroundColor: '#F8F8F8',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+  },
+  chatResponse: {
+    marginLeft: 'auto',
+    borderTopRightRadius: 0,
+    backgroundColor: '#dee5ea',
   },
 });

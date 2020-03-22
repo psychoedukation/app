@@ -67,13 +67,14 @@ export default class ChatScreen extends React.Component {
     if (this.state.response != null) {
       response = this.state.response.messages[0].message;
     }
-    
+
     return (
       <View
         style={{
           width: '100%',
           height: '100%',
           alignItems: 'center',
+          padding: 32,
         }}>
         <ChatMessage isRequest="true" message="Ich fühle mich antriebslos." />
         <ChatMessage message="Womit hast du heute Probleme?" />

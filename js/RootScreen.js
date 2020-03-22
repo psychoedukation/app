@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SectionList, FlatList, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import {Text, View, Button, Image} from 'react-native';
 
 import WelcomeScreen from './WelcomeScreen';
 import NavigationComponent from './NavigationComponent';
@@ -11,6 +11,7 @@ import NavigationComponent from './NavigationComponent';
 //------------------------------------------------------------------------------
 export default class RootScreen extends React.Component {
 
+
   //----------------------------------------------------------------------------
   /**
    *
@@ -18,13 +19,6 @@ export default class RootScreen extends React.Component {
   //----------------------------------------------------------------------------
   constructor(props) {
     super(props);
-    
-    this.state = {
-      showSplash: true,
-      userName: 'toefi'
-    }
-    
-    setTimeout(() => this.setState({showSplash: false}), 1000);
   }
 
   //----------------------------------------------------------------------------
@@ -33,29 +27,7 @@ export default class RootScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   render() {
-    console.log(this.state);
-    
-    if (this.state.showSplash) {
-      return this.renderSplash();
-    }
-    else if (this.state.userName == null) {
-      return (
-        <WelcomeScreen onName={(name) => this.handleUserName(name)}/>
-      );
-    }
-    else {
-      return (
-        <NavigationComponent userName={this.state.userName} />
-      );
-    }
-  }
-
-  //----------------------------------------------------------------------------
-  /**
-   *
-   */
-  //----------------------------------------------------------------------------
-  renderSplash() {
+    const {navigation} = this.props;
     return (
       <View style={{width: '100%', height: '100%', alignItems:'center'}}>
         <View style={{width:'100%',height:'50%',backgroundColor: '#1DCCB1', justifyContent:'center', alignItems:'center'}}>
@@ -71,26 +43,10 @@ export default class RootScreen extends React.Component {
           />
         </View>
 
+        <Button title="Start" onPress={() => navigation.navigate('WelcomeScreen')}></Button>
+
         <Text style={{fontSize:36, color:'#45718D',paddingTop:20, fontWeight:'bold'}}>Corona Psycare</Text>
       </View>
     );
   }
-
-  //----------------------------------------------------------------------------
-  /**
-   *
-   */
-  //----------------------------------------------------------------------------
-  handleUserName(name) {
-    this.setState({userName: name});
-  }
 }
-
-//------------------------------------------------------------------------------
-/**
- * don't forget the styles for this component
- */
-//------------------------------------------------------------------------------
-const styles = StyleSheet.create({
-});
-

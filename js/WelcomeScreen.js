@@ -13,6 +13,8 @@ export default class WelcomeScreen extends React.Component {
   componentDidMount() {}
 
   render() {
+    const {navigation} = this.props;
+
     return (
       <View style={{width: '100%', height: '100%'}}>
         <View
@@ -56,7 +58,7 @@ export default class WelcomeScreen extends React.Component {
             onChangeText={(text) => this.setState({name: text})}
           />
           <TouchableHighlight
-            onPress={() => {this.props.onName(this.state.name)}}
+            onPress={() => navigation.navigate('ChatScreen', {name: this.state.name})}
             style={{
               height: 56,
               borderRadius: 50,

@@ -57,19 +57,23 @@ export default class WelcomeScreen extends React.Component {
               paddingRight: 16,
             }}
             placeholder="Wie heißt du?"
-            onChangeText={(text) => this.setState({name: text})}
+            onChangeText={text => this.setState({name: text})}
           />
           <TouchableHighlight
             onPress={() => {
-              appState.userName = this.state.name;
-              navigation.navigate('ChatScreen')
+              if (!!this.state.name) {
+                appState.userName = this.state.name;
+                navigation.navigate('ChatScreen');
+              }
             }}
             style={{
               height: 56,
               borderRadius: 50,
               paddingLeft: 16,
               paddingRight: 16,
-              backgroundColor: 'rgba(3, 63, 101, 0.74)',
+              backgroundColor: !!this.state.name
+                ? 'rgba(3, 63, 101, 0.74)'
+                : 'rgba(3, 63, 101, 0.4)',
               display: 'flex',
             }}>
             <Text

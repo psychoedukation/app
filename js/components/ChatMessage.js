@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   chatMessage: {
     maxWidth: '90%',
     marginTop: 24,
+    marginHorizontal: 6,
     padding: 32,
     borderRadius: 24,
     shadowColor: '#000',
@@ -54,7 +55,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
   },
   chatRequest: {

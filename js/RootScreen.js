@@ -18,7 +18,12 @@ export default class RootScreen extends React.Component {
     super(props);
   }
 
-  
+  componentDidMount() {
+    const {navigation} = this.props;
+    setTimeout(() => {
+      navigation.navigate('WelcomeScreen');
+    }, 800);
+  }
 
 
   //----------------------------------------------------------------------------
@@ -27,9 +32,6 @@ export default class RootScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   render() {
-
-    const {navigation} = this.props;
-
     return (
       <View style={{width: '100%', height: '100%', alignItems:'center'}}>
         <View style={{width:'100%',height:'50%',backgroundColor: '#1DCCB1', justifyContent:'center', alignItems:'center'}}>
@@ -44,9 +46,6 @@ export default class RootScreen extends React.Component {
             source={require('../assets/img/border-image.png')}
           />
         </View>
-
-        <Button title="Start" onPress={() => navigation.navigate('WelcomeScreen')}></Button>
-
         <Text style={{fontSize:36, color:'#45718D',paddingTop:20, fontWeight:'bold'}}>Corona Psycare</Text>
       </View>
     );

@@ -35,8 +35,7 @@ export default class NavigationComponent extends React.Component {
             alignItems: 'center',
             left: '50%',
             top: 16,
-            transform: [{translateX: -75}]
-            
+            transform: [{translateX: -75}],
           }}>
           <Image
             style={{width: 180, height: 180}}

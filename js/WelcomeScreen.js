@@ -12,7 +12,9 @@ export default class WelcomeScreen extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+
+  }
 
   render() {
     const {navigation} = this.props;

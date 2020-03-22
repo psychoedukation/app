@@ -4,7 +4,6 @@ import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
 import ResultCard from './components/ResultCard';
 import ChatRecommendation from './components/ChatRecommendation';
-import ResultCard from './components/ResultCard';
 
 import { appState } from './utils/appState';
 

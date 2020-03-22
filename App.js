@@ -26,7 +26,7 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="RootScreen" component={RootScreen} />
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen}/>
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="ResultScreen" component={ResultScreen} />
         </Stack.Navigator>

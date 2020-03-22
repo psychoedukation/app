@@ -30,21 +30,25 @@ export default class ResultScreen extends React.Component {
   //----------------------------------------------------------------------------
   render() {
 
-    const {navigation} = this.props;
+    const {route} = this.props;
+    console.log('rendering Result')
+    console.log(route.params)
 
-    const image = this.props.image;
-    const headline = this.props.headline;
-    const shortDesc = this.props.shortDesc;
+
+    const image = route.params.image;
+    const headline = route.params.headline;
+    const shortDesc = route.params.shortDesc;
+
 
     return (
       <View style={styles.mainView}>
         <NavigationComponent showAvatar={false} />
-        <Image style={styles.headerImage} source={require('../assets/img/result_card.png')}></Image>
+        <Image style={styles.headerImage} source={image}></Image>
         <View style={styles.content}>
-            <Text style={styles.headline}>Ängste überwinden</Text>
+            <Text style={styles.headline}>{headline}</Text>
             <Text styles={styles.section}>
-                Der Tod ist uns gewiß, wenn auch nicht sogleich, während wir dies lesen. Auch die Angst vor dem Sterben ist durch Aufschub und Tröstung gemildert (Todespsychologie). {"\n"}{"\n"}
-                Gefahr jedoch bleibt und ist auch für den, der den Tod wünscht, mit leiblichen Schmerzen (Schmerz) verbunden. Das Wort Angst kommt von αγχω und bedeutet drosseln, würgen; lateinisch angor Beklemmung, angustia Enge. Furcht und Angst sind einander ähnlich, aber nicht identisch, auch wenn die Alltagssprache sie meist gleichbedeutend verwendet. Furcht gilt als klar auf eine äußere Gefahr hin ausgerichtet. 
+            Gefahr jedoch bleibt und ist auch für den, der den Tod wünscht, mit leiblichen Schmerzen (Schmerz) verbunden. Das Wort Angst kommt von αγχω und bedeutet drosseln, würgen; lateinisch angor Beklemmung, angustia Enge. Furcht und Angst sind einander ähnlich, aber nicht identisch, auch wenn die Alltagssprache sie meist gleichbedeutend verwendet. Furcht gilt als klar auf eine äußere Gefahr hin ausgerichtet. {"\n"}{"\n"}
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
             </Text>
         </View>
       </View>

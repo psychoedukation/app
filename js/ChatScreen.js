@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput} from 'react-native';
 import ChatMessage from './components/ChatMessage';
+import NavigationComponent from './components/NavigationComponent';
 
 import { appState } from './utils/appState';
 
@@ -90,6 +91,7 @@ export default class ChatScreen extends React.Component {
   render() {
     return (
       <View style={styles.mainView}>
+        <NavigationComponent showAvatar={true}></NavigationComponent>
         <SafeAreaView style={styles.messages}>
           <FlatList
             style={styles.messages}

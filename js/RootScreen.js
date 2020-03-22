@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, Button, Image} from 'react-native';
+import {StackActions} from '@react-navigation/native';
 
 //------------------------------------------------------------------------------
 /**
@@ -7,8 +8,6 @@ import {Text, View, Button, Image} from 'react-native';
  */
 //------------------------------------------------------------------------------
 export default class RootScreen extends React.Component {
-
-
   //----------------------------------------------------------------------------
   /**
    *
@@ -21,11 +20,10 @@ export default class RootScreen extends React.Component {
   componentDidMount() {
     const {navigation} = this.props;
     setTimeout(() => {
-      navigation.navigate('WelcomeScreen');
-    }, 800);
+      navigation.dispatch(StackActions.replace('WelcomeScreen'));
+      // navigation.navigate('WelcomeScreen');
+    }, 500);
   }
-
-
   //----------------------------------------------------------------------------
   /**
    *

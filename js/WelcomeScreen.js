@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Button, TextInput, Image, Text, TouchableHighlight} from 'react-native';
-
+import {View, TextInput, Image, Text, TouchableHighlight} from 'react-native';
+import {StackActions} from '@react-navigation/native';
 import { appState } from './utils/appState';
 
 export default class WelcomeScreen extends React.Component {
@@ -63,7 +63,7 @@ export default class WelcomeScreen extends React.Component {
             onPress={() => {
               if (!!this.state.name) {
                 appState.userName = this.state.name;
-                navigation.navigate('ChatScreen');
+                navigation.dispatch(StackActions.replace('ChatScreen'));
               }
             }}
             style={{

@@ -264,19 +264,21 @@ export default class ChatScreen extends React.Component {
     if (message.isRequest) {
       positionStyle.alignItems = 'flex-end';
     }
-    
+
+    const {navigation} = this.props;
+
     var json = null;
-    
+
     try {
       json = JSON.parse(message.message);
     }
     catch (e) {
       //console.log(e);
     }
-    
+
     if (json != null) {
       return (
-        <ResultList response={json} />
+        <ResultList response={json} nav={navigation}/>
       );
     }
     else if (!message.suggested) {

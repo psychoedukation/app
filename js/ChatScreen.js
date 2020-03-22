@@ -1,12 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList,TouchableOpacity, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
 import ResultCard from './components/ResultCard';
 import ChatRecommendation from './components/ChatRecommendation';
 import ResultCard from './components/ResultCard';
 
-import { appState } from './utils/appState';
+import {appState} from './utils/appState';
+import {Icon} from 'react-native-elements';
 
 //------------------------------------------------------------------------------
 /**
@@ -25,7 +35,7 @@ export default class ChatScreen extends React.Component {
     this.state = {
       messages: [],
       response: null,
-      keyboardHeight: 0
+      keyboardHeight: 0,
     };
   }
 
@@ -186,7 +196,7 @@ export default class ChatScreen extends React.Component {
             ref={'list'}
             style={styles.messages}
             data={this.state.messages}
-            renderItem={({ item }) => this.renderMessage(item)}
+            renderItem={({item}) => this.renderMessage(item)}
             keyExtractor={item => 'id' + item.key}
           />
           <TouchableOpacity onPress={() => navigation.navigate('ResultScreen')}>
@@ -196,22 +206,28 @@ export default class ChatScreen extends React.Component {
         </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
-            <TextInput ref={'textInput'}
+            <TextInput
+              ref={'textInput'}
               style={styles.textInput}
               placeholder="Gib deine Antwort ein..."
-              onChangeText={(text) => this.setState({message: text})}
+              onChangeText={text => this.setState({message: text})}
             />
           </View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {
-              this.refs.list.scrollToEnd();
-              this.refs.textInput.blur();
-              this.refs.textInput.clear();
-              this.sendMessage(this.state.message);
+              if (!!this.state.message && this.state.message.length > 0) {
+                this.refs.list.scrollToEnd();
+                this.refs.textInput.blur();
+                this.refs.textInput.clear();
+                this.sendMessage(this.state.message);
+              }
             }}
             style={styles.sendButtonView}>
-            <Text style={styles.sendButtonText}>send</Text>
-          </TouchableHighlight>
+            <Icon
+              name="send"
+              color={!!this.state.message ? '#1DCCB1' : '#ccc'}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -250,12 +266,13 @@ export default class ChatScreen extends React.Component {
     else if (!message.suggested) {
       return (
         <View key={'key' + message.key} style={positionStyle}>
-          <ChatMessage isRequest={message.isRequest}
-            message={message.message} />
+          <ChatMessage
+            isRequest={message.isRequest}
+            message={message.message}
+          />
         </View>
       );
-    }
-    else {
+    } else {
       const text = message.message;
 
       return (
@@ -274,7 +291,6 @@ export default class ChatScreen extends React.Component {
   }
 }
 
-
 //------------------------------------------------------------------------------
 /**
  * don't forget the styles for this component
@@ -287,13 +303,15 @@ const styles = StyleSheet.create({
 
   messages: {
     flex: 1,
-    paddingLeft:20,
-    paddingRight:20
+    paddingHorizontal: 16,
   },
 
   inputView: {
     flexDirection: 'row',
-    padding: 5
+    padding: 5,
+    borderColor: '#ccc',
+    borderTopWidth: 2,
+    backgroundColor: '#fff',
   },
 
   textInputView: {
@@ -302,27 +320,13 @@ const styles = StyleSheet.create({
 
   textInput: {
     height: 56,
-    borderWidth: 1,
-    borderColor: '#707070',
-    borderRadius: 50,
     paddingLeft: 16,
     paddingRight: 16,
   },
-
   sendButtonView: {
-    height: 56,
-    borderRadius: 50,
+    top: 16,
     paddingLeft: 16,
     paddingRight: 16,
-    backgroundColor: 'rgba(3, 63, 101, 0.74)',
-    marginLeft: 5
+    marginLeft: 5,
   },
-
-  sendButtonText: {
-    textAlign: 'center',
-    lineHeight: 56,
-    color: '#fff',
-    fontSize: 18,
-  }
-
 });

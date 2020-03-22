@@ -13,14 +13,13 @@ export default class NavigationComponent extends React.Component {
   render() {
     const showAvatar = this.props.showAvatar;
     let image;
-    
+
     if(showAvatar){
       image = <Image style={{width: 130, height: 130}} source={require('../../assets/img/avatar.png')} />
     }
 
     return (
-      <View style={{justifyContent: 'center'}}>
-        
+      <View style={{justifyContent: 'center', marginBottom:20}}>
         <Svg
           width={'100%'}
           height={150.257}
@@ -39,7 +38,8 @@ export default class NavigationComponent extends React.Component {
             position: 'absolute',
             width: 150,
             height: 150,
-            zIndex:100,
+            zIndex: 3,
+            elevate: 3,
             justifyContent: 'center',
             alignItems: 'center',
             left: '50%',

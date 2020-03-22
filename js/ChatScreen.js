@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList,TouchableOpacity, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
+import ResultCard from './components/ResultCard';
 import ChatRecommendation from './components/ChatRecommendation';
 
 import { appState } from './utils/appState';
@@ -149,10 +150,12 @@ export default class ChatScreen extends React.Component {
   */
   //----------------------------------------------------------------------------
   render() {
+    const {navigation} = this.props;
+
     return (
       <View style={styles.mainView}>
-        <View style={styles.messages}>
         <NavigationComponent showAvatar={true}></NavigationComponent>
+        <View style={styles.messages}>
         <SafeAreaView style={styles.messages}>
           <FlatList
             ref={'list'}
@@ -161,6 +164,10 @@ export default class ChatScreen extends React.Component {
             renderItem={({ item }) => this.renderMessage(item)}
             keyExtractor={item => 'id' + item.key}
           />
+          <TouchableOpacity onPress={() => navigation.navigate('ResultScreen')}>
+            <ResultCard image={require('../assets/img/result_card.png')} headline="Ängste überwinden" shortDesc="Erfahre mehr darüber wie du mit Ängsten besser umgehen kannst"></ResultCard>
+          </TouchableOpacity>
+        </SafeAreaView>
         </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
@@ -235,11 +242,13 @@ export default class ChatScreen extends React.Component {
 //------------------------------------------------------------------------------
 const styles = StyleSheet.create({
   mainView: {
-    flex: 1
+    flex: 1,
   },
 
   messages: {
-    flex: 1
+    flex: 1,
+    paddingLeft:20,
+    paddingRight:20
   },
 
   inputView: {

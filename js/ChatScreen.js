@@ -1,12 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList,TouchableOpacity, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import NavigationComponent from './components/NavigationComponent';
 import ResultCard from './components/ResultCard';
 import ChatRecommendation from './components/ChatRecommendation';
 
-import { appState } from './utils/appState';
-import { Icon } from 'react-native-elements';
+import {appState} from './utils/appState';
+import {Icon} from 'react-native-elements';
 
 //------------------------------------------------------------------------------
 /**
@@ -25,7 +34,7 @@ export default class ChatScreen extends React.Component {
     this.state = {
       messages: [],
       response: null,
-      keyboardHeight: 0
+      keyboardHeight: 0,
     };
   }
 
@@ -242,7 +251,6 @@ export default class ChatScreen extends React.Component {
   }
 }
 
-
 //------------------------------------------------------------------------------
 /**
  * don't forget the styles for this component
@@ -255,7 +263,7 @@ const styles = StyleSheet.create({
 
   messages: {
     flex: 1,
-    paddingHorizontal: 32,
+    paddingHorizontal: 16,
   },
 
   inputView: {

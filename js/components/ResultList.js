@@ -1,15 +1,18 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import ResultCard from './ResultCard';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 export default class ResultList extends React.Component {
   constructor(props) {
     super(props);
   }
+  
 
   render() {
     const response = this.props.response;
-
+    const navigation = this.props.nav;
     return (
       <View
         style={{
@@ -21,13 +24,22 @@ export default class ResultList extends React.Component {
           Unsere Materialien können dir dabei helfen, dich im Alltag
           zurechtzufinden.
         </Text>
-        <ResultCard
-          image={{
+
+        <TouchableOpacity onPress={() => {navigation.navigate('ResultScreen',{
+          image: {
             uri: response.image,
-          }}
-          headline={response.headline}
-          shortDesc={response.shortDesc}
-        />
+          },
+          headline: response.headline,
+          shortDesc: response.shortDesc
+        })}}>
+          <ResultCard
+            image={{
+              uri: response.image,
+            }}
+            headline={response.headline}
+            shortDesc={response.shortDesc}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

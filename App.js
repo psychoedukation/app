@@ -8,6 +8,7 @@
 import React from 'react';
 
 import RootScreen from './js/RootScreen';
+import WelcomeScreen from './js/WelcomeScreen';
 import ChatScreen from './js/ChatScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -25,14 +26,9 @@ export default class App extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="RootScreen"
-            component={RootScreen}
-          />
-          <Stack.Screen
-            name="ChatScreen"
-            component={ChatScreen}
-          />
+          <Stack.Screen name="RootScreen" component={RootScreen} />
+          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

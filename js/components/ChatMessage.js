@@ -41,7 +41,7 @@ export default class ChatMessage extends React.Component {
   render() {
     const message = this.props.message;
     return (
-      <View style={styles.chatResponse}>
+      <View style={this.props.isRequest ? styles.chatRequest : styles.chatResponse}>
         <Text>{message}</Text>
       </View>
     );
@@ -49,21 +49,36 @@ export default class ChatMessage extends React.Component {
 
 }
 const styles = StyleSheet.create({
-    chatResponse:{
-        width:250,
-        padding:20,
-        borderRadius: 10,
-        backgroundColor:'#F8F8F8',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    
-        elevation: 5
-    }
-    
-});
+  chatRequest: {
+    width: 260,
+    padding: 32,
+    borderRadius: 24,
+    borderTopRightRadius: 0,
+    backgroundColor: 'rgba(69, 113, 141, 0.18)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
+    elevation: 5,
+  },
+  chatResponse: {
+    width: 260,
+    padding: 32,
+    borderRadius: 24,
+    borderBottomLeftRadius: 0,
+    backgroundColor: '#F8F8F8',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+});

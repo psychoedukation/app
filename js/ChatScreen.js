@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList, TouchableHighlight, TextInput, Keyboard, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import ChatMessage from './components/ChatMessage';
 import ChatRecommendation from './components/ChatRecommendation';
 
 import { appState } from './utils/appState';
+import { Icon } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 //------------------------------------------------------------------------------
 /**
@@ -155,28 +157,34 @@ export default class ChatScreen extends React.Component {
             ref={'list'}
             style={styles.messages}
             data={this.state.messages}
-            renderItem={({ item }) => this.renderMessage(item)}
+            renderItem={({item}) => this.renderMessage(item)}
             keyExtractor={item => 'id' + item.key}
           />
         </View>
         <View style={styles.inputView}>
           <View style={styles.textInputView}>
-            <TextInput ref={'textInput'}
+            <TextInput
+              ref={'textInput'}
               style={styles.textInput}
               placeholder="Gib deine Antwort ein..."
-              onChangeText={(text) => this.setState({message: text})}
+              onChangeText={text => this.setState({message: text})}
             />
           </View>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {
-              this.refs.list.scrollToEnd();
-              this.refs.textInput.blur();
-              this.refs.textInput.clear();
-              this.sendMessage(this.state.message);
+              if (!!this.state.message && this.state.message.length > 0) {
+                this.refs.list.scrollToEnd();
+                this.refs.textInput.blur();
+                this.refs.textInput.clear();
+                this.sendMessage(this.state.message);
+              }
             }}
             style={styles.sendButtonView}>
-            <Text style={styles.sendButtonText}>send</Text>
-          </TouchableHighlight>
+            <Icon
+              name="send"
+              color={!!this.state.message ? '#1DCCB1' : '#ccc'}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -191,7 +199,7 @@ export default class ChatScreen extends React.Component {
   */
   //----------------------------------------------------------------------------
   renderMessage(message) {
-    var positionStyle = { alignItems: 'flex-start' };
+    var positionStyle = {alignItems: 'flex-start'};
     
     if (message.isRequest) {
       positionStyle.alignItems = 'flex-end';
@@ -200,14 +208,15 @@ export default class ChatScreen extends React.Component {
     if (!message.suggested) {
       return (
         <View key={'key' + message.key} style={positionStyle}>
-          <ChatMessage isRequest={message.isRequest}
-            message={message.message} />
+          <ChatMessage
+            isRequest={message.isRequest}
+            message={message.message}
+          />
         </View>
       );
-    }
-    else {
+    } else {
       const text = message.message;
-      
+
       return (
         <TouchableWithoutFeedback key={'key' + message.key} style={positionStyle}
           onPress={() => {
@@ -232,45 +241,35 @@ export default class ChatScreen extends React.Component {
 //------------------------------------------------------------------------------
 const styles = StyleSheet.create({
   mainView: {
-    flex: 1
+    flex: 1,
   },
-  
+
   messages: {
-    flex: 1
+    flex: 1,
+    paddingHorizontal: 32,
   },
-  
+
   inputView: {
     flexDirection: 'row',
-    padding: 5
+    padding: 5,
+    borderColor: '#ccc',
+    borderTopWidth: 2,
+    backgroundColor: '#fff',
   },
-  
+
   textInputView: {
     flex: 1,
   },
-  
+
   textInput: {
     height: 56,
-    borderWidth: 1,
-    borderColor: '#707070',
-    borderRadius: 50,
     paddingLeft: 16,
     paddingRight: 16,
   },
-  
   sendButtonView: {
-    height: 56,
-    borderRadius: 50,
+    top: 16,
     paddingLeft: 16,
     paddingRight: 16,
-    backgroundColor: 'rgba(3, 63, 101, 0.74)',
-    marginLeft: 5
+    marginLeft: 5,
   },
-  
-  sendButtonText: {
-    textAlign: 'center',
-    lineHeight: 56,
-    color: '#fff',
-    fontSize: 18,
-  }
-  
 });

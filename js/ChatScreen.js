@@ -127,8 +127,6 @@ export default class ChatScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   initializeBot() {
-        console.log(new Date() + "initialize bot");
-
     fetch(
       'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
       {
@@ -142,7 +140,7 @@ export default class ChatScreen extends React.Component {
       .then(response => response.json())
       .then(responseJson => this.sendMessage(appState.userName, false))
       .catch(error => {
-        //console.error(error);
+        console.error(error);
       });
   }
 
@@ -152,7 +150,6 @@ export default class ChatScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   sendMessage(message, display = true) {
-    console.log(message);
     fetch(
       'https://account.snatchbot.me/channels/api/api/id97164/appVRtherapy/apsWirVsVirus?user_id=' + appState.userId,
       {
@@ -190,8 +187,6 @@ export default class ChatScreen extends React.Component {
    */
   //----------------------------------------------------------------------------
   handleResponse(response) {
-    console.log(response);
-
     var messages = this.state.messages;
 
     for (var i in response.messages) {
@@ -276,11 +271,10 @@ export default class ChatScreen extends React.Component {
       json = JSON.parse(message.message);
     }
     catch (e) {
-      console.log(e);
+      //console.log(e);
     }
     
     if (json != null) {
-      console.log(json.image);
       return (
         <ResultList response={json} />
       );

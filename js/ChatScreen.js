@@ -6,9 +6,11 @@
  */
 
 import React from 'react';
-import { StyleSheet, Text, View, SectionList, FlatList, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import {View} from 'react-native';
 import ChatMessage from './components/ChatMessage';
-
+import ChatRecommendation from './components/ChatRecommendation';
+import {ScrollView} from 'react-native-gesture-handler';
+import ResultList from './components/ResultList';
 
 //------------------------------------------------------------------------------
 /**
@@ -69,17 +71,27 @@ export default class ChatScreen extends React.Component {
     }
 
     return (
-      <View
-        style={{
-          width: '100%',
-          height: '100%',
-          alignItems: 'center',
-          padding: 32,
-        }}>
-        <ChatMessage isRequest="true" message="Ich fühle mich antriebslos." />
-        <ChatMessage message="Womit hast du heute Probleme?" />
-        <ChatMessage isRequest="true" message="Ich bin traurig." />
-      </View>
+      <ScrollView>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            padding: 32,
+          }}>
+          <ChatMessage isRequest="true" message="Ich fühle mich antriebslos." />
+          <ChatMessage message="Womit hast du heute Probleme?" />
+          <ChatMessage isRequest="true" message="Ich bin traurig." />
+          <ResultList />
+          <ScrollView>
+          <View style={{alignItems: 'flex-start', flexDirection: 'row'}}>
+            <ChatRecommendation selected={false} text="Ich bin traurig." />
+            <ChatRecommendation selected={false} text="Ich bin traurig." />
+            <ChatRecommendation selected={true} text="Ich bin traurig." />
+          </View>
+          </ScrollView>
+        </View>
+      </ScrollView>
     );
   }
 }
